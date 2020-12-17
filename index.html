@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Group_Chat_App[@1_Server]</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png">
+</head>
+<body>
+   
+   
+
+ <input id="input" placeholder="Type your message here" />
+ <!--<input id="enter" type="button" onclick="sendMessage()">-->
+
+ <br>
+  <br>
+   <br>
+
+    <div id="box"></div>
+   
+    <script src=https://cdn.pubnub.com/sdk/javascript/pubnub.4.28.2.min.js></script>
+    <script> 
+   
+    (function() {
+            var pubnub = new PubNub({
+                publishKey: 'demo',
+                subscribeKey: 'demo'
+            });
+            function $(id) {
+                return document.getElementById(id);
+            }
+            var box = $('box'),
+                input = $('input'),
+                channel = '10chat-demo';
+            pubnub.addListener({
+                message: function(obj) {
+                    box.innerHTML = ('' + obj.message).replace(/[<>]/g, '') + '<br><br>' + box.innerHTML
+                }
+            });
+            pubnub.subscribe({
+                channels: [channel]
+            });
+            input.addEventListener('keyup', function(e) {
+              if ((e.keyCode || e.charCode) === 13) {
+                    pubnub.publish({
+                        channel: channel,
+                        message: input.value,
+                        x: (input.value = '')
+                    });
+                }
+                /*if (document.getElementById('enter')) {
+                    pubnub.publish({
+                        channel: channel,
+                        message: input.value,
+                        x: (input.value = '')
+                    });
+                }*/
+            });
+        })();
+    
+    </script>
+
+</body>
+</html>
+
+<!--
+    <table border="1" bgcolor="#90ceeb" 
+      width="325px"
+    height="50px"
+    style="float: center;">
+        <tr>
+            <td>Chat</td>
+            <td>Chat</td>
+            <td>Chat</td>
+            <td>Chat</td>
+            <td>Chat</td>
+        </tr>
+    </table>-->
+
+  <!--<img src="design-top.png" width="300%" height="300%" class="circle" alt="Error while loading the image">
+
+<a href="Mssg_Server.html">
+<img src="start.png" 
+
+width="20%"
+ height="20%"
+
+ style=
+ "
+ margin-top: 350px;
+ margin-left: 125px;
+ "
+
+alt="start"></a>-->
+
+    <!--<a href="Mssg_Server.html">
+        <button src="Mssg_Server.html" placeholder="Let's Chat with the World" class="First-Server_Start-btN" ></button>
+    </a>-->
